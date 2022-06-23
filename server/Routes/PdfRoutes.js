@@ -46,6 +46,18 @@ pdfRoutes.delete(
   })
 );
 
+pdfRoutes.get(
+  "/searchpdf/:type",
+  asyncHandler(async (req, res) => {
+    const products = await Pdf.find({
+      $text: {
+        $search: req.params.type,
+      },
+    });
+    res.json(products);
+  })
+);
+
 // PRODUCT Pdf
 pdfRoutes.post(
   "/:id/review",

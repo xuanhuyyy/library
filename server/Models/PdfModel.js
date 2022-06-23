@@ -47,6 +47,8 @@ const pdfSchema = mongoose.Schema(
   }
 );
 
+pdfSchema.index({ name: "text" });
+
 const Pdf = mongoose.model("Pdf", pdfSchema);
 
 export default Pdf;

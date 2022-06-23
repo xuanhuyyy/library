@@ -6,9 +6,13 @@ import { listPdf } from "../../Redux/Actions/PdfActions";
 import Pdf from "./Pdf";
 import Loading from "../LoadingError/Loading";
 import Message from "../LoadingError/Error";
+import axios from "axios";
+import { URL } from "../../Redux/Url";
 
 const MainPdf = () => {
   const [keyword, setKeyword] = useState();
+  const [data, setData] = useState([]);
+  const [isSearch, setIsSearch] = useState(0);
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -22,12 +26,17 @@ const MainPdf = () => {
     dispatch(listPdf());
   }, [dispatch, successDelete]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    if (keyword.trim()) {
-      history.push(`/search/${keyword}`);
-    } else {
-      history.push("/");
+    try {
+      const data = await axios.get(`${URL}/api/pdf/searchpdf/${keyword}`);
+      if (data.status === 200) {
+        setData(data.data);
+        setIsSearch(1);
+        // console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -83,9 +92,13 @@ const MainPdf = () => {
           ) : (
             <div className="row">
               {/* Products */}
-              {products.map((product) => (
-                <Pdf product={product} key={product._id} />
-              ))}
+              {isSearch == 0
+                ? products.map((product) => (
+                    <Pdf product={product} key={product._id} />
+                  ))
+                : data.map((product) => (
+                    <Pdf product={product} key={product._id} />
+                  ))}
             </div>
           )}
         </div>

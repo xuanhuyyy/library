@@ -2,6 +2,7 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import { admin, protect } from "../Middleware/AuthMiddleware.js";
 import Order from "./../Models/OrderModel.js";
+import User from "../Models/UserModel.js";
 
 const orderRouter = express.Router();
 
@@ -129,6 +130,145 @@ orderRouter.put(
     } else {
       res.status(404);
       throw new Error("Order Not Found");
+    }
+  })
+);
+
+// GET ORDER BY ID
+orderRouter.get(
+  "/search/:search",
+  asyncHandler(async (req, res) => {
+    const search = req.params.search;
+    // const docs = await Order.find({ email: { $regex: 'gmail' } });
+
+    // const data = await Order.find({
+    //   "user.name": { $regex: search },
+    // });
+
+    // console.log(data);
+
+    User.find({ name: { $regex: search } })
+      .exec()
+      .then((docs) => {
+        let ids = docs.map((doc) => doc.id);
+        Order.find({
+          user: { $in: ids },
+        })
+          .populate({
+            path: "user",
+          })
+          .exec()
+          .then((docs) => {
+            res.status(200).json({
+              docs,
+            });
+          })
+          .catch((err) => {
+            res.status(500).json({
+              error: err,
+            });
+          });
+      });
+  })
+);
+
+orderRouter.get(
+  "/status/:status",
+  asyncHandler(async (req, res) => {
+    const status = req.params.status;
+    if (status === "choxuli") {
+      const order = await Order.find({
+        status: null,
+      }).populate("user", "name email");
+
+      if (order) {
+        res.json(order);
+      } else {
+        res.status(404);
+        throw new Error("Order Not Found");
+      }
+    } else if (status == "default") {
+      const order = await Order.find({}).populate("user", "name email");
+
+      if (order) {
+        res.json(order);
+      } else {
+        res.status(404);
+        throw new Error("Order Not Found");
+      }
+    } else {
+      const order = await Order.find({
+        status: status,
+      }).populate("user", "name email");
+
+      if (order) {
+        res.json(order);
+      } else {
+        res.status(404);
+        throw new Error("Order Not Found");
+      }
+    }
+  })
+);
+
+orderRouter.get(
+  "/option/:option",
+  asyncHandler(async (req, res) => {
+    const status = req.params.option;
+    if (status == "default") {
+      const order = await Order.find({}).populate("user", "name email");
+
+      if (order) {
+        res.json(order);
+      } else {
+        res.status(404);
+        throw new Error("Order Not Found");
+      }
+    } else {
+      const order = await Order.find({
+        typePay: status,
+      }).populate("user", "name email");
+
+      if (order) {
+        res.json(order);
+      } else {
+        res.status(404);
+        throw new Error("Order Not Found");
+      }
+    }
+  })
+);
+
+orderRouter.get(
+  "/combine/:status/:option",
+  asyncHandler(async (req, res) => {
+    const status = req.params.status;
+    const option = req.params.option;
+
+    if (status == "choxuli") {
+      const order = await Order.find({
+        status: null,
+        typePay: option,
+      }).populate("user", "name email");
+
+      if (order) {
+        res.json(order);
+      } else {
+        res.status(404);
+        throw new Error("Order Not Found");
+      }
+    } else {
+      const order = await Order.find({
+        status: status,
+        typePay: option,
+      }).populate("user", "name email");
+
+      if (order) {
+        res.json(order);
+      } else {
+        res.status(404);
+        throw new Error("Order Not Found");
+      }
     }
   })
 );

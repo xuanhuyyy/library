@@ -6,9 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../../Redux/Actions/ProductActions";
 import Loading from "../LoadingError/Loading";
 import Message from "../LoadingError/Error";
+import axios from "axios";
+import { URL } from "../../Redux/Url";
 
 const MainProducts = () => {
   const [keyword, setKeyword] = useState();
+  const [isSearch, setIsSearch] = useState(0);
+  const [data, setData] = useState([]);
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -25,14 +29,34 @@ const MainProducts = () => {
     dispatch(listProducts());
   }, [dispatch, successDelete]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    if (keyword.trim()) {
-      history.push(`/search/${keyword}`);
-    } else {
-      history.push("/");
+    try {
+      const data = await axios.get(`${URL}/api/products/search/${keyword}`);
+      if (data.status === 200) {
+        setIsSearch(1);
+        setData(data.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  const handleChangeOption = async (e) => {
+    try {
+      const data = await axios.get(
+        `${URL}/api/products/searchProduct/${e.target.value}`
+      );
+      if (data.status === 200) {
+        setIsSearch(1);
+        setData(data.data);
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="content-main">
       <div className="content-header">
@@ -72,10 +96,12 @@ const MainProducts = () => {
               </select>
             </div>
             <div className="col-lg-2 col-6 col-md-3">
-              <select className="form-select">
-                <option>Thêm cũ nhất</option>
-                <option>Thêm mới nhất</option>
-                <option>Đã xem</option>
+              <select
+                className="form-select"
+                onChange={(e) => handleChangeOption(e)}
+              >
+                <option value="old">Thêm cũ nhất</option>
+                <option value="new">Thêm mới nhất</option>
               </select>
             </div>
           </div>
@@ -92,9 +118,13 @@ const MainProducts = () => {
           ) : (
             <div className="row">
               {/* Products */}
-              {products.map((product) => (
-                <Product product={product} key={product._id} />
-              ))}
+              {isSearch == 0
+                ? products.map((product) => (
+                    <Product product={product} key={product._id} />
+                  ))
+                : data.map((product) => (
+                    <Product product={product} key={product._id} />
+                  ))}
             </div>
           )}
 

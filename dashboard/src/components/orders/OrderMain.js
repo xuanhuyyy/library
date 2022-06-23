@@ -3,10 +3,102 @@ import Message from "../LoadingError/Error";
 import Loading from "../LoadingError/Loading";
 import Orders from "./Orders";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { URL } from "../../Redux/Url";
 
 const OrderMain = () => {
+  const [isSearch, setIsSearch] = useState(0);
+  const [search, setSearch] = useState("");
+  const [search1, setSearch1] = useState("");
+  const [search2, setSearch2] = useState("");
+  const [data, setData] = useState([]);
   const orderList = useSelector((state) => state.orderList);
   const { loading, error, orders } = orderList;
+
+  useEffect(async () => {
+    if (isSearch == 1) {
+      try {
+        const data = await axios.get(`${URL}/api/orders/search/${search}`);
+        if (data.status === 200) {
+          setData(data.data.docs);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (isSearch == 2) {
+      // status
+      try {
+        const data = await axios.get(`${URL}/api/orders/status/${search1}`);
+        if (data.status === 200) {
+          // console.log(data);
+          setData(data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (isSearch == 3) {
+      // status
+      try {
+        const data = await axios.get(`${URL}/api/orders/option/${search2}`);
+        if (data.status === 200) {
+          // console.log(data);
+          setData(data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (search1 && search2 && search1 != "default" && search2 != "default") {
+      try {
+        const data = await axios.get(
+          `${URL}/api/orders/combine/${search1}/${search2}`
+        );
+        if (data.status === 200) {
+          // console.log(data);
+          setData(data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [search, search1, search2]);
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setIsSearch(1);
+  };
+
+  const handleChangeStatus = (e) => {
+    setSearch1(e.target.value);
+    setIsSearch(2);
+  };
+
+  const handleChangOption = (e) => {
+    setSearch2(e.target.value);
+    setIsSearch(3);
+  };
+
+  // const showData = () => {
+  //   let res = "";
+  //   if (isSearch == 1) {
+  //     res = <Orders orders={data} />;
+  //   } else if (isSearch == 2) {
+  //     res = <Orders orders={data} />;
+  //     console.log(data);
+  //   } else {
+  //     res = <Orders orders={orders} />;
+  //   }
+
+  //   return res;
+  // };
+
+  console.log(isSearch);
 
   return (
     <section className="content-main">
@@ -22,21 +114,30 @@ const OrderMain = () => {
                 type="text"
                 placeholder="Search..."
                 className="form-control p-2"
+                value={search}
+                onChange={(e) => handleSearch(e)}
               />
             </div>
             <div className="col-lg-2 col-6 col-md-3">
-              <select className="form-select">
-                <option>Trạng thái</option>
-                <option>Đã xác nhận</option>
-                <option>Chưa xác nhận</option>
-                <option>Show all</option>
+              <select
+                className="form-select"
+                onChange={(e) => handleChangeStatus(e)}
+              >
+                <option value="default">Trạng thái</option>
+                <option value="choxuli">Chờ xử lí</option>
+                <option value="dahoanthanh">Đã hoàn thành</option>
+                <option value="datrasach">Đã trả sách</option>
+                <option value="dachomuon">Đã cho mượn</option>
               </select>
             </div>
             <div className="col-lg-2 col-6 col-md-3">
-              <select className="form-select">
-                <option>Show 20</option>
-                <option>Show 30</option>
-                <option>Show 40</option>
+              <select
+                className="form-select"
+                onChange={(e) => handleChangOption(e)}
+              >
+                <option value="default">Thể Loại</option>
+                <option value="loan">Mượn</option>
+                <option value="buy">Mua</option>
               </select>
             </div>
           </div>
@@ -48,7 +149,7 @@ const OrderMain = () => {
             ) : error ? (
               <Message variant="alert-danger">{error}</Message>
             ) : (
-              <Orders orders={orders} />
+              <Orders orders={isSearch != 0 ? data : orders} />
             )}
           </div>
         </div>

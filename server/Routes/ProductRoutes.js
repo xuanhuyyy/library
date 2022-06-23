@@ -178,4 +178,19 @@ productRoute.put(
     }
   })
 );
+
+productRoute.get(
+  "/searchProduct/:option",
+  asyncHandler(async (req, res) => {
+    const option = req.params.option;
+    if (option == "old") {
+      const products = await Product.find({}).sort({ _id: -1 });
+      res.json(products);
+    } else {
+      const products = await Product.find({ created_at: 1 });
+      res.json(products);
+    }
+  })
+);
+
 export default productRoute;
