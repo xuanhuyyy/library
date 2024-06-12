@@ -19,7 +19,7 @@ const Footer = () => {
         <div className="card-name">
           <img
             alt="paypal"
-            src="https://pbs.twimg.com/media/EfTZlEnWAAMn1lX.png"
+            src="https://imagenpng.com/wp-content/uploads/2016/09/Paypal-Logo-PNG-1.png"
           />
         </div>
         <div className="card-name">
@@ -31,7 +31,7 @@ const Footer = () => {
         <div className="card-name">
           <img
             alt="discover"
-            src="https://icons-for-free.com/iconfiles/png/512/cash+checkout+discover+network+online+shopping+payment+method-1320191225548835050.png"
+            src="https://www.joinpoints.io/wp-content/uploads/2023/07/discover_logo.png"
           />
         </div>
       </div>

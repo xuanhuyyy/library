@@ -10,8 +10,8 @@ const ContactInfo = () => {
               <i className="fas fa-phone-alt"></i>
             </div>
             <h5>Facebook</h5>
-            <a href="https://www.facebook.com/Minhanh7220/">
-            <p>Thùy Tiên</p>
+            <a href="https://www.facebook.com/profile.php?id=100068046214518">
+            <p>THCS Phú Diễn</p>
             </a>
           </div>
         </div>
@@ -21,8 +21,8 @@ const ContactInfo = () => {
               <i className="fas fa-map-marker-alt"></i>
             </div>
             <h5>Vị trí</h5>
-            <a href="https://goo.gl/maps/1BtmWsWyZQBZMrdB9">
-            <p className="location">41A - Phú Diễn - BTL - Hà Nội</p>
+            <a href="https://maps.app.goo.gl/WQa3moGWnDkYrkBJA">
+            <p className="location">886 Đ. Cầu Diễn, Cầu Diễn, Từ Liêm, Hà Nội</p>
             </a>
           </div>
         </div>
@@ -32,8 +32,8 @@ const ContactInfo = () => {
               <i className="fas fa-fax"></i>
             </div>
             <h5>Zalo</h5>
-            <a href="https://zalo.me/0359206636">
-            <p>0359 206 636</p>
+            <a href="https://zalo.me/0327565878">
+            <p>0327 565 878</p>
             </a>
           </div>
         </div>

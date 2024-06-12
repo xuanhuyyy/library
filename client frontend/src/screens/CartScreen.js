@@ -59,7 +59,7 @@ const CartScreen = ({ match, location, history }) => {
               className="btn btn-success mx-5 px-5 py-3"
               to="/"
               style={{
-                fontSize: "12px",
+                fontSize: "15px",
               }}
             >
               Mua hàng ngay....

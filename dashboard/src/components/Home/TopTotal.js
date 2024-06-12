@@ -18,7 +18,7 @@ const TopTotal = (props) => {
             </span>
             <div className="text">
               <h6 className="mb-1">Doanh thu</h6>{" "}
-              <span>${totalSale.toFixed(0)}</span>
+              <span>{totalSale.toFixed(0)} VND </span>
             </div>
           </article>
         </div>

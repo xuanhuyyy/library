@@ -31,8 +31,8 @@ const Header = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-6 d-flex align-items-center display-none">
-              <p>+84 359 206 636</p>
-              <p>thuytien@hunre.edu.vn</p>
+              <p>+84 327 565 878</p>
+              <a href="http://thcsphudien.pgdbactuliem.edu.vn/">Thcsphudien.pgdbactuliem.edu.vn</a>
             </div>
             <div className=" col-12 col-lg-6 justify-content-center justify-content-lg-end d-flex align-items-center">
               <Link to="">
@@ -142,7 +142,7 @@ const Header = () => {
             <div className="row">
               <div className="col-md-3 col-4 d-flex align-items-center">
                 <Link className="navbar-brand" to="/">
-                  <img alt="logo" src="/images/logo-mb.png" />
+                  <img alt="logo" src="/logo.png" />
                 </Link>
               </div>
 
@@ -162,12 +162,15 @@ const Header = () => {
                 <button
                   style={{
                     margin: "20px",
-                    width: "100px",
+                    width: "200px",
+                    height: "65px",
                     border: "1px solid gray",
-                    background: "white",
+                    borderRadius:"5px",
+                    fontSize: "20px",
+                    background: "green",
                   }}
                 >
-                  <Link to="/pdf">File</Link>
+                  <Link to="/pdf">Sách Online</Link>
                 </button>
               </div>
 

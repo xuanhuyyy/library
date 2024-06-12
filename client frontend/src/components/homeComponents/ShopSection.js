@@ -73,7 +73,7 @@ const ShopSection = (props) => {
                             <h3
                               style={{
                                 float: "right",
-                                fontSize: "14px",
+                                fontSize: "20px",
                                 color: "red",
                               }}
                             >

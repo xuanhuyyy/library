@@ -1,6 +1,5 @@
 # 1. Mở các terminal của từng folder: Client fontend, server, dashbroad cài đặt lại thư viện ( Nếu lỗi)
 ### `npm install`
-### Ví dụ `D:\ThuyTien-MyBookStore\client fontend> npm install` (Server, dashbroad tương tự như vậy)
 
 # 2.Sau khi cài đặt thư viện xong thì bắt đầu chạy project + bật server bằng các lệnh
 ### 2.1 Đối với folder client fontend chạy lệnh `npm start`

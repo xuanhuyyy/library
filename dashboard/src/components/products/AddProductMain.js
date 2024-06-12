@@ -141,13 +141,11 @@ const AddProductMain = () => {
                     <label className="form-label">Hình ảnh</label>
                     <input
                       className="form-control"
-                      type="text"
+                      type="file"
                       placeholder="Enter Image URL"
-                      value={image}
                       required
-                      onChange={(e) => setImage(e.target.value)}
+                      onChange={(e) => handleImage(e)}
                     />
-                    <input className="form-control mt-3" type="file" />
                   </div>
                 </div>
               </div>
